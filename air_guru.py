@@ -41,6 +41,8 @@ with mp_hands.Hands(
     cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
     if cv2.waitKey(5) & 0xFF == 27:
       break
+    if cv2.getWindowProperty('MediaPipe Hands', cv2.WND_PROP_VISIBLE) < 1:
+      break
 cap.release()
 
 
