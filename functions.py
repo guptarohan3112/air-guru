@@ -1,5 +1,7 @@
 import screen_brightness_control as sbc
-from pycaw.pycaw import AudioUtilities, ISimpleAudioVolume
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 import applescript
 from sys import platform
 
@@ -14,14 +16,11 @@ def mute():
     elif platform == "darwin":
         applescript.AppleScript("set volume with output muted").run()
     elif platform == "win32":
-        sessions = AudioUtilities.GetAllSessions()
-        for session in sessions:
-            volume = session._ctl.QueryInterface(ISimpleAudioVolume)
-            print(volume.GetMasterVolume())
-            volume.SetMasterVolume(0, None)
-            if session.Process and session.Process.name() == "vlc.exe":
-                print("volume.GetMasterVolume(): %s" % volume.GetMasterVolume())
-                volume.SetMasterVolume(0.6, None)
+        devices = AudioUtilities.GetSpeakers()
+        interface = devices.Activate(
+        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volume = cast(interface, POINTER(IAudioEndpointVolume))
+        volume.SetMute(1, None)
         
         
 def performAction(gesture):
