@@ -1,6 +1,4 @@
 import mediapipe as mp
-import applescript
-from sys import platform
 
 mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
@@ -16,15 +14,6 @@ gestureMap = {
 def finger_is_up(mcp, pip, dip, tip):
   # note, higher up in physical space is lower in this space
   return tip < dip < pip < mcp
-
-def volume_control(gesture):
-    if gesture == "MUTE":
-        if platform == "linux" or platform == "linux2":
-            pass
-        elif platform == "darwin":
-            applescript.AppleScript("set volume with output muted").run()
-        elif platform == "win32":
-            pass
 
 def classify_hand(hand_landmarks):
 
@@ -66,5 +55,5 @@ def classify_hand(hand_landmarks):
         translation(ring_finger_is_up), 
         translation(pinky_is_up),
         gesture)
-
-  volume_control(gesture)
+  
+  return gesture

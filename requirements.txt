@@ -1,0 +1,4 @@
+mediapipe
+pycaw
+screen_brightness_control
+applescript
