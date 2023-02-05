@@ -24,12 +24,25 @@ def mute(muteOn=True):
         volume.SetMute(muteOn, None)
      
 def volumeUp():
-    devices = AudioUtilities.GetSpeakers()
-    interface = devices.Activate(
-    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
-    volume = cast(interface, POINTER(IAudioEndpointVolume))
-    volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel() + 2, None)
-       
+    try:
+        devices = AudioUtilities.GetSpeakers()
+        interface = devices.Activate(
+        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volume = cast(interface, POINTER(IAudioEndpointVolume))
+        volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel() + 2, None)
+    except:
+        Exception("Volume is already at it's minimum value")
+
+def volumeDown():
+    try:
+        devices = AudioUtilities.GetSpeakers()
+        interface = devices.Activate(
+        IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volume = cast(interface, POINTER(IAudioEndpointVolume))
+        volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel() - 2, None)
+    except: 
+        Exception("Volume is already at it's maximum value")
+        
         
 def performAction(gesture, fingerTouchingEar, withInFace, straightHand):
     if gesture == "LOW_BRIGHTNESS":
@@ -42,4 +55,6 @@ def performAction(gesture, fingerTouchingEar, withInFace, straightHand):
         mute(False)
     elif gesture == "VOLUME_UP":
         volumeUp()
+    elif gesture == "VOLUME_DOWN":
+        volumeDown()
     

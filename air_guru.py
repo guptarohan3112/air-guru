@@ -1,7 +1,9 @@
 import mediapipe as mp
 import cv2
 from functions import performAction
-from utils import classify_hand, finger_touching_ear, within_facialbounds, straight_hand
+from utils import classify_hand, finger_touching_right_ear, within_facialbounds, straight_hand
+
+"""This file connects to the computers video system, receiving continuous input that is then analysed by utils.py and functions.py"""
 
 mp_holistic = mp.solutions.holistic
 mp_drawing = mp.solutions.drawing_utils
@@ -32,7 +34,7 @@ with mp_holistic.Holistic(
     image.flags.writeable = True
     image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
     
-    for landmarks in [results.right_hand_landmarks, results.left_hand_landmarks]:
+    for i, landmarks in enumerate([results.right_hand_landmarks, results.left_hand_landmarks]):
         if landmarks:
             mp_drawing.draw_landmarks(
                 image,
@@ -41,20 +43,22 @@ with mp_holistic.Holistic(
                 mp_drawing_styles.get_default_hand_landmarks_style(),
                 mp_drawing_styles.get_default_hand_connections_style())
             
-            gesture = classify_hand(landmarks)
+            gesture = classify_hand(landmarks,i)
             
-            fingerTouchingEar = finger_touching_ear(results.pose_landmarks, landmarks, 0.05)
+            fingerTouchingEar = finger_touching_right_ear(results.pose_landmarks, landmarks, 0.05)
             
             withInFace = within_facialbounds(results.pose_landmarks, landmarks)
             
             straightHand = straight_hand(landmarks, 0.01)
             
-            print(frame)
+            # print(frame)
             if frame % 10 == 0:
                 if gesture == "VOLUME_UP":
                     performAction(gesture, fingerTouchingEar, withInFace, straightHand)
                     frame = 0
-            if gesture != "VOLUME_UP":
+                if gesture == "VOLUME_DOWN":
+                    performAction(gesture, fingerTouchingEar, withInFace, straightHand)
+            else:
                 performAction(gesture, fingerTouchingEar, withInFace, straightHand)
             
          
