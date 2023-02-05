@@ -1,7 +1,7 @@
 
 Air Guru is an assistive tool that combines the power of low-cost webcam based computer vision with powerful cross-platform system controls.
 
-We aim to make technology and basic operations accessible to individuals that are not experienced with using computers. 
+We aim to make technology and basic operations accessible to individuals that are have usability issues with computers, whether due to a lack of experience of where to find particular system settings, or through medical conditions like tremors and neuromotor disorders, that make it difficult to use trackpads and small buttons.
 
 Air Guru can also be used to provide an intuitive experience for users who want to operate their device without touching it, useful in applications like cooking whilst watching a YouTube video. 
 
