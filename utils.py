@@ -10,6 +10,18 @@ gestureMap = {
     (True, True, True, True): "HIGH_BRIGHTNESS",
 }
 
+# compares the finger placement with where it is over face. If within appropriate area, return true
+def within_facialbounds(pose_landmarks, hand_landmarks):
+    # Right finger tip must be below the nose but above the shoulder line
+    lower_bound = pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_EYE_INNER].y
+    upper_bound = pose_landmarks.landmark[mp_holistic.PoseLandmark.MOUTH_RIGHT].y
+    left_bound = pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_EYE_OUTER].x
+    right_bound = pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_EYE_OUTER].x
+    finger_tipx = hand_landmarks.landmark[mp_holistic.HandLandmark.INDEX_FINGER_TIP].x
+    finger_tipy = hand_landmarks.landmark[mp_holistic.HandLandmark.INDEX_FINGER_TIP].y
+    return left_bound < finger_tipx < right_bound and lower_bound < finger_tipy < upper_bound
+
+
 # only pass in y values
 def finger_is_up(mcp, pip, dip, tip):
   # note, higher up in physical space is lower in this space
