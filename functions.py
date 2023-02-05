@@ -10,7 +10,7 @@ from sys import platform
 # def setUp():
 #     sessions = AudioUtilities.GetAllSessions()
     
-def mute():
+def mute(muteOn=True):
     if platform == "linux" or platform == "linux2":
         pass
     elif platform == "darwin":
@@ -20,15 +20,18 @@ def mute():
         interface = devices.Activate(
         IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
         volume = cast(interface, POINTER(IAudioEndpointVolume))
-        volume.SetMute(1, None)
+        mute = 1 if muteOn else 0
+        volume.SetMute(muteOn, None)
         
         
-def performAction(gesture):
+def performAction(gesture, fingerTouchingEar):
     if gesture == "LOW_BRIGHTNESS":
         sbc.set_brightness(20)
     elif gesture == "HIGH_BRIGHTNESS":
         sbc.set_brightness(100)
     elif gesture == "MUTE":
         mute()
+    elif gesture == "MUTE" and fingerTouchingEar:
+        mute(False)
 
     

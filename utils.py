@@ -8,6 +8,7 @@ gestureMap = {
     (True, False, False, False): "MUTE",
     (False, False, False, False): "LOW_BRIGHTNESS",
     (True, True, True, True): "HIGH_BRIGHTNESS",
+    
 }
 
 # compares the finger placement with where it is over face. If within appropriate area, return true
@@ -26,6 +27,10 @@ def within_facialbounds(pose_landmarks, hand_landmarks):
 def finger_is_up(mcp, pip, dip, tip):
   # note, higher up in physical space is lower in this space
   return tip < dip < pip < mcp
+
+# only pass in right hand index finger x values and right ear position 
+def finger_touching_ear(rh_index, rh_ear, threshold):
+    return abs(rh_index - rh_ear) < threshold
 
 def classify_hand(hand_landmarks):
 
