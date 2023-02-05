@@ -6,6 +6,7 @@ from utils import classify_hand
 mp_holistic = mp.solutions.holistic
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
+frames = 0
 
 cap = cv2.VideoCapture(0)
 with mp_holistic.Holistic(
@@ -14,6 +15,7 @@ with mp_holistic.Holistic(
     min_tracking_confidence=0.5) as holistic:
   while cap.isOpened():
     success, image = cap.read()
+    frames += 1
     if not success:
       print("Ignoring empty camera frame.")
       # If loading a video, use 'break' instead of 'continue'.
