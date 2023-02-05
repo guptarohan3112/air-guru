@@ -29,7 +29,13 @@ def finger_is_up(mcp, pip, dip, tip):
   # note, higher up in physical space is lower in this space
   return tip < dip < pip < mcp
 
-# only pass in right hand index finger x values and right ear position 
+# hand is straight in vertical dimension 
+def straight_hand(hand_landmarks, threshold):
+    palm_depth = hand_landmarks.landmark[mp_holistic.HandLandmark.WRIST].z
+    middle_finger_mcp_depth = hand_landmarks.landmark[mp_holistic.HandLandmark.MIDDLE_FINGER_MCP].z
+    return abs(palm_depth - middle_finger_mcp_depth) < threshold
+
+# only pass in right hand index finger x values and right ear position
 def finger_touching_ear(pose_landmarks, hand_landmarks, threshold):
     right_tip = hand_landmarks.landmark[mp_holistic.HandLandmark.INDEX_FINGER_TIP]
     right_ear = pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_EAR]

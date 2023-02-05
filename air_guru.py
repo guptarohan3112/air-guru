@@ -1,7 +1,7 @@
 import mediapipe as mp
 import cv2
 from functions import performAction
-from utils import classify_hand, finger_touching_ear, within_facialbounds
+from utils import classify_hand, finger_touching_ear, within_facialbounds, straight_hand
 
 mp_holistic = mp.solutions.holistic
 mp_drawing = mp.solutions.drawing_utils
@@ -43,8 +43,10 @@ with mp_holistic.Holistic(
             fingerTouchingEar = finger_touching_ear(results.pose_landmarks, landmarks, 0.05)
             
             withInFace = within_facialbounds(results.pose_landmarks, landmarks)
-
-            performAction(gesture, fingerTouchingEar, withInFace)
+            
+            straightHand = straight_hand(landmarks, 0.01)
+            
+            performAction(gesture, fingerTouchingEar, withInFace, straightHand)
      
     # Flip the image horizontally for a selfie-view display.
     cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
