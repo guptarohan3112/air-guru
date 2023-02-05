@@ -12,4 +12,4 @@ Air Guru's current gesture functionality includes:
 - Volume control (Volume Up and Volume Down)
 - Mute control (Mute off and Mute On) 
 
-This tool was developed using Python and a variety of system control and computer vision libraries (including OpenCV and Google's MediaPipe library for landmark detection of the hands and body) 
+This tool was developed using Python and a variety of system control and computer vision libraries (including OpenCV and Google's MediaPipe library for landmark detection of the hands and body).
