@@ -7,12 +7,15 @@ mp_holistic = mp.solutions.holistic
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 
+frame = 0
+
 cap = cv2.VideoCapture(0)
 with mp_holistic.Holistic(
     model_complexity=0,
     min_detection_confidence=0.5,
     min_tracking_confidence=0.5) as holistic:
   while cap.isOpened():
+    frame += 1
     success, image = cap.read()
     if not success:
       print("Ignoring empty camera frame.")
@@ -46,8 +49,15 @@ with mp_holistic.Holistic(
             
             straightHand = straight_hand(landmarks, 0.01)
             
-            performAction(gesture, fingerTouchingEar, withInFace, straightHand)
-     
+            print(frame)
+            if frame % 10 == 0:
+                if gesture == "VOLUME_UP":
+                    performAction(gesture, fingerTouchingEar, withInFace, straightHand)
+                    frame = 0
+            if gesture != "VOLUME_UP":
+                performAction(gesture, fingerTouchingEar, withInFace, straightHand)
+            
+         
     # Flip the image horizontally for a selfie-view display.
     cv2.imshow('MediaPipe Hands', cv2.flip(image, 1))
     if cv2.waitKey(5) & 0xFF == 27:

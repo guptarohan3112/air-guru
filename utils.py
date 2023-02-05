@@ -8,7 +8,7 @@ gestureMap = {
     (True, False, False, False): "MUTE",
     (False, False, False, False): "LOW_BRIGHTNESS",
     (True, True, True, True): "HIGH_BRIGHTNESS",
-    
+    (True, True, False, False): "VOLUME_UP",
 }
 
 # compares the finger placement with where it is over face. If within appropriate area, return true
@@ -27,7 +27,7 @@ def within_facialbounds(pose_landmarks, hand_landmarks):
 # only pass in y values
 def finger_is_up(mcp, pip, dip, tip):
   # note, higher up in physical space is lower in this space
-  return tip < dip < pip < mcp
+  return tip < mcp
 
 # hand is straight in vertical dimension 
 def straight_hand(hand_landmarks, threshold):

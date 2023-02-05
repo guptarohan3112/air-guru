@@ -22,16 +22,24 @@ def mute(muteOn=True):
         volume = cast(interface, POINTER(IAudioEndpointVolume))
         mute = 1 if muteOn else 0
         volume.SetMute(muteOn, None)
-        
+     
+def volumeUp():
+    devices = AudioUtilities.GetSpeakers()
+    interface = devices.Activate(
+    IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+    volume = cast(interface, POINTER(IAudioEndpointVolume))
+    volume.SetMasterVolumeLevel(volume.GetMasterVolumeLevel() + 2, None)
+       
         
 def performAction(gesture, fingerTouchingEar, withInFace, straightHand):
-    if gesture == "LOW_BRIGHTNESS" and straightHand:
+    if gesture == "LOW_BRIGHTNESS":
         sbc.set_brightness(20)
-    elif gesture == "HIGH_BRIGHTNESS" and straightHand:
+    elif gesture == "HIGH_BRIGHTNESS":
         sbc.set_brightness(100)
     elif gesture == "MUTE" and withInFace:
         mute()
     elif gesture == "MUTE" and fingerTouchingEar:
         mute(False)
-
+    elif gesture == "VOLUME_UP":
+        volumeUp()
     
