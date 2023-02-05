@@ -1,8 +1,15 @@
 
-Air Guru is an assistive tool that aims to make technology more accessible to individuals that are not experienced in using computers. 
+Air Guru is an assistive tool that combines the power of low-cost webcam based computer vision with powerful cross-platform system controls.
 
-Our application aims to do this by providing gesture-based functionality in conjunction with a video camera. 
+We aim to make technology and basic operations accessible to individuals that are not experienced with using computers. 
 
-Gesture functionality includes: brightness control, volume control, and muting control. 
+Air Guru can also be used to provide an intuitive experience for users who want to operate their device without touching it, useful in applications like cooking whilst watching a YouTube video. 
 
-This tool was developed using Python and the third-party library/module called Mediafile, that was published for open-source use by Google.
+Our application aims to do this by providing gesture-based functionality in conjunction with the user's standard webcam. We have designed the application so it would be easily extensible to more gestures and controls. 
+
+Air Guru's current gesture functionality includes: 
+- Brightness control (Brightness Up and Brightness Down)
+- Volume control (Volume Up and Volume Down)
+- Mute control (Mute off and Mute On) 
+
+This tool was developed using Python and a variety of system control and computer vision libraries (including OpenCV and Google's MediaPipe library for landmark detection of the hands and body) 
