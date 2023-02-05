@@ -13,13 +13,14 @@ gestureMap = {
 
 # compares the finger placement with where it is over face. If within appropriate area, return true
 def within_facialbounds(pose_landmarks, hand_landmarks):
-    # Right finger tip must be below the nose but above the shoulder line
     lower_bound = pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_EYE_INNER].y
     upper_bound = pose_landmarks.landmark[mp_holistic.PoseLandmark.MOUTH_RIGHT].y
     left_bound = pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_EYE_OUTER].x
     right_bound = pose_landmarks.landmark[mp_holistic.PoseLandmark.LEFT_EYE_OUTER].x
+    
     finger_tipx = hand_landmarks.landmark[mp_holistic.HandLandmark.INDEX_FINGER_TIP].x
     finger_tipy = hand_landmarks.landmark[mp_holistic.HandLandmark.INDEX_FINGER_TIP].y
+    
     return left_bound < finger_tipx < right_bound and lower_bound < finger_tipy < upper_bound
 
 
@@ -29,8 +30,10 @@ def finger_is_up(mcp, pip, dip, tip):
   return tip < dip < pip < mcp
 
 # only pass in right hand index finger x values and right ear position 
-def finger_touching_ear(rh_index, rh_ear, threshold):
-    return abs(rh_index - rh_ear) < threshold
+def finger_touching_ear(pose_landmarks, hand_landmarks, threshold):
+    right_tip = hand_landmarks.landmark[mp_holistic.HandLandmark.INDEX_FINGER_TIP]
+    right_ear = pose_landmarks.landmark[mp_holistic.PoseLandmark.RIGHT_EAR]
+    return abs(right_tip.x - right_ear.x) < threshold and abs(right_tip.y - right_ear.y) < threshold
 
 def classify_hand(hand_landmarks):
 

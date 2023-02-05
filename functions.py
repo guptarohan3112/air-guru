@@ -24,12 +24,12 @@ def mute(muteOn=True):
         volume.SetMute(muteOn, None)
         
         
-def performAction(gesture, fingerTouchingEar):
+def performAction(gesture, fingerTouchingEar, withInFace):
     if gesture == "LOW_BRIGHTNESS":
         sbc.set_brightness(20)
     elif gesture == "HIGH_BRIGHTNESS":
         sbc.set_brightness(100)
-    elif gesture == "MUTE":
+    elif gesture == "MUTE" and withInFace:
         mute()
     elif gesture == "MUTE" and fingerTouchingEar:
         mute(False)
