@@ -49,7 +49,6 @@ with mp_holistic.Holistic(
             
             straightHand = straight_hand(landmarks, 0.01)
             
-            print(frame)
             if frame % 10 == 0:
                 if gesture == "VOLUME_UP":
                     performAction(gesture, fingerTouchingEar, withInFace, straightHand)
